@@ -6,13 +6,8 @@ program Advection_Diffusion_1D
     ! Parameters
     INTEGER , PARAMETER :: N = 2000              ! number of nodes
     REAL , PARAMETER :: Ma = 0.1                  ! Mach number
-<<<<<<< HEAD
     REAL , PARAMETER :: D = 1.0          ! diffusion coefficient
     REAL , PARAMETER :: c = 1.0                   ! molecular speed
-=======
-    REAL , PARAMETER :: D = 5.0E-08            ! diffusion coefficient
-    REAL , PARAMETER :: c = 2.0                   ! molecular speed
->>>>>>> parent of c6ca4a9... nth
     REAL , PARAMETER :: cs = 1.0/(3**0.5)            ! speed of sound
     REAL , PARAMETER :: u = Ma*cs                ! advection velocity
     INTEGER , PARAMETER :: T = 16000      ! number of timesteps
@@ -133,12 +128,8 @@ subroutine collision (f, rho, alpha, beta, Ma, c, cs, u, N)
     real :: Ma, cs, c, u, alpha, beta
     integer :: i, N
     f_eqt = f
-<<<<<<< HEAD
 
     do i = 2, N-1
-=======
-    do i = 1, N
->>>>>>> parent of c6ca4a9... nth
         CALL equilibrium_f(f_eqt, rho(i), Ma, cs, c, u, i, N)
     end do
     
@@ -154,7 +145,6 @@ subroutine lbm_shift(f, N)
     implicit none
     real, dimension(3, N) :: f
     integer:: i, N
-<<<<<<< HEAD
     real :: left_bnd, right_bnd
     
     ! Periodic Boundary
@@ -167,19 +157,6 @@ subroutine lbm_shift(f, N)
     
     do i = 1, N-1
         f(3, i) = f(3, i+1)
-=======
-    do i = 1, N
-        if (i == N) then
-            f(2, N) = f(2, N-1)
-            f(3, N) = f(3, 1)
-        else if (i == 1) then
-            f(2, 1) = f(2, N)
-            f(3, 1) = f(3, 2)
-        else 
-            f(2, i) = f(2, i-1)
-            f(3, i) = f(3, i+1)
-        end if
->>>>>>> parent of c6ca4a9... nth
     end do
 
     f(2,1) = right_bnd
