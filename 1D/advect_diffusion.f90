@@ -58,16 +58,20 @@ program Advection_Diffusion_1D
         WRITE(*,*) "Timestep:", i
         WRITE(*,*) "-----------------------------------------------------"
         WRITE(*,*) "- Advection Step"
+        WRITE(*,*) "maximum moment before advection:", maxval(rho)
+        WRITE(*,*) "minimum moment before advection:", minval(rho)
         CALL advection(f, N)
-        WRITE(*,*) "maximum moment before:", maxval(rho)
-        WRITE(*,*) "minimum moment before:", minval(rho)
+        WRITE(*,*) "maximum moment after advection:", maxval(rho)
+        WRITE(*,*) "minimum moment after advection:", minval(rho)
         WRITE(*,*) "- Moment Calculation Step"
         CALL sum_moment(rho, f, N)
-        WRITE(*,*) "maximum moment after:", maxval(rho)
-        WRITE(*,*) "minimum moment after:", minval(rho)
+        WRITE(*,*) "maximum moment after moment calculation:", maxval(rho)
+        WRITE(*,*) "minimum moment after moment calcualtion:", minval(rho)
         rho_output(i, :) = rho
         WRITE(*,*) "- Collision Step"
         CALL collision(f, rho, alpha, beta, Ma, c, cs, u, N)
+        WRITE(*,*) "maximum moment after collision:", maxval(rho)
+        WRITE(*,*) "minimum moment after collision:", minval(rho)
         WRITE(*,*) "-----------------------------------------------------"
     end do
    
