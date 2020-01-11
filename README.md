@@ -1,4 +1,4 @@
-# Lattice Boltzmann Code in Julia Language
+# Lattice Boltzmann in Fortran
 
 1. 1D advection diffusion equation
 - Completed the general framework using single file. 11.01.2020
