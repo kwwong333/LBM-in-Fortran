@@ -4,13 +4,18 @@ program Advection_Diffusion_1D
     REAL :: t1, t2 
 
     ! Parameters
-    INTEGER , PARAMETER :: N = 400              ! number of nodes
+    INTEGER , PARAMETER :: N = 2000              ! number of nodes
     REAL , PARAMETER :: Ma = 0.1                  ! Mach number
+<<<<<<< HEAD
+    REAL , PARAMETER :: D = 1.0          ! diffusion coefficient
+    REAL , PARAMETER :: c = 1.0                   ! molecular speed
+=======
     REAL , PARAMETER :: D = 5.0E-08            ! diffusion coefficient
     REAL , PARAMETER :: c = 2.0                   ! molecular speed
+>>>>>>> parent of c6ca4a9... nth
     REAL , PARAMETER :: cs = 1.0/(3**0.5)            ! speed of sound
     REAL , PARAMETER :: u = Ma*cs                ! advection velocity
-    INTEGER , PARAMETER :: T = floor(0.5*N/u)       ! number of timesteps
+    INTEGER , PARAMETER :: T = 16000      ! number of timesteps
     REAL , PARAMETER :: beta = 1.0/(2.0*D/cs**2.0+1.0)   ! relaxation parameter
     REAL , PARAMETER :: alpha = 2.0                ! entropic stabilizer (constant for now)
     
@@ -75,7 +80,7 @@ program Advection_Diffusion_1D
         WRITE(*,*) "-----------------------------------------------------"
     end do
    
-    WRITE(filename,'(a,i4.4,a)') "time", i,".txt"
+    WRITE(filename,'(a,i4.4,a)') "density_end.txt"
     open (newunit=fh, action='write', file=filename, status='unknown')
     do i = 1, N   
             write (fh, *) rho_output(i, :)
@@ -128,16 +133,20 @@ subroutine collision (f, rho, alpha, beta, Ma, c, cs, u, N)
     real :: Ma, cs, c, u, alpha, beta
     integer :: i, N
     f_eqt = f
+<<<<<<< HEAD
+
+    do i = 2, N-1
+=======
     do i = 1, N
+>>>>>>> parent of c6ca4a9... nth
         CALL equilibrium_f(f_eqt, rho(i), Ma, cs, c, u, i, N)
     end do
     
-    do i = 1, N
+    do i = 2, N-1
         f(1,i) = f(1,i)+alpha*beta*(f_eqt(1,i)-f(1,i))
         f(2,i) = f(2,i)+alpha*beta*(f_eqt(2,i)-f(2,i))
         f(3,i) = f(3,i)+alpha*beta*(f_eqt(3,i)-f(3,i))
     end do
-
     return
 end
 
@@ -145,6 +154,20 @@ subroutine lbm_shift(f, N)
     implicit none
     real, dimension(3, N) :: f
     integer:: i, N
+<<<<<<< HEAD
+    real :: left_bnd, right_bnd
+    
+    ! Periodic Boundary
+    right_bnd= f(2, N)
+    left_bnd = f(3, 1)
+ 
+    do i = N, 2
+        f(2, i) = f(2, i-1)
+    end do
+    
+    do i = 1, N-1
+        f(3, i) = f(3, i+1)
+=======
     do i = 1, N
         if (i == N) then
             f(2, N) = f(2, N-1)
@@ -156,7 +179,12 @@ subroutine lbm_shift(f, N)
             f(2, i) = f(2, i-1)
             f(3, i) = f(3, i+1)
         end if
+>>>>>>> parent of c6ca4a9... nth
     end do
+
+    f(2,1) = right_bnd
+    f(3,N) = left_bnd
+
     WRITE(*,*) "LBM shift performed"
     return
 end
