@@ -12,9 +12,9 @@ contains
 
     return
     end
-    subroutine equilibrium_f (f_eq, rho_, Ma, cs, c, u, i, N)
+    subroutine equilibrium_f (f_eq, rho_, Ma, cs, i, N)
         implicit none
-        real:: Ma, cs, c, u
+        real:: Ma, cs
         integer :: i, N
         real, dimension(3, N) :: f_eq
         real :: rho_
@@ -32,16 +32,16 @@ contains
         return
     end 
         
-    subroutine collision (f, rho, alpha, beta, Ma, c, cs, u, N)
+    subroutine collision (f, rho, alpha, beta, Ma, cs, N)
         implicit none
         real, dimension(3, N) :: f, f_eqt
         real, dimension(N) :: rho
-        real :: Ma, cs, c, u, alpha, beta
+        real :: Ma, cs, alpha, beta
         integer :: i, N
         f_eqt = f
         
         do i = 2, N-1
-            CALL equilibrium_f(f_eqt, rho(i), Ma, cs, c, u, i, N)
+            CALL equilibrium_f(f_eqt, rho(i), Ma, cs, i, N)
         end do
         
         do i = 2, N-1

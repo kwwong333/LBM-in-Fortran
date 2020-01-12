@@ -1,5 +1,5 @@
 program Advection_Diffusion_1D
-    
+   use hdf5
    use LBM_1D
     implicit none
     ! CPU timing Variables 
@@ -12,7 +12,7 @@ program Advection_Diffusion_1D
     REAL , PARAMETER :: c = 1.0                   ! molecular speed
     REAL , PARAMETER :: cs = 1.0/(3**0.5)            ! speed of sound
     REAL , PARAMETER :: u = Ma*cs                ! advection velocity
-    INTEGER , PARAMETER :: T = 16000      ! number of timesteps
+    INTEGER , PARAMETER :: T = 2000      ! number of timesteps
     REAL , PARAMETER :: beta = 1.0/(2.0*D/cs**2.0+1.0)   ! relaxation parameter
     REAL , PARAMETER :: alpha = 2.0                ! entropic stabilizer (constant for now)
     
@@ -48,7 +48,7 @@ program Advection_Diffusion_1D
 
     ! Initialize the equilibrim function
     do i = 1 , N
-        CALL equilibrium_f(f_eq, rho_0(i), Ma, cs, c, u, i, N)
+        CALL equilibrium_f(f_eq, rho_0(i), Ma, cs, i, N)
     end do
     
     ! Initalize the variables
@@ -71,7 +71,7 @@ program Advection_Diffusion_1D
         WRITE(*,*) "minimum moment after moment calcualtion:", minval(rho)
         rho_output(i, :) = rho
         WRITE(*,*) "- Collision Step"
-        CALL collision(f, rho, alpha, beta, Ma, c, cs, u, N)
+        CALL collision(f, rho, alpha, beta, Ma, cs, N)
         WRITE(*,*) "maximum moment after collision:", maxval(rho)
         WRITE(*,*) "minimum moment after collision:", minval(rho)
         WRITE(*,*) "-----------------------------------------------------"
@@ -79,8 +79,10 @@ program Advection_Diffusion_1D
    
     WRITE(filename,'(a,i4.4,a)') "density_end.txt"
     open (newunit=fh, action='write', file=filename, status='unknown')
-    do i = 1, N   
-            write (fh, *) rho_output(i, :)
+    do i = 1, T  
+            if (mod(T, 50) == 0) then
+                write (fh, *) rho_output(i, :)
+            end if
     end do
     close(fh)
 
