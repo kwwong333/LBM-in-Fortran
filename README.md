@@ -1,4 +1,4 @@
-# Lattice Boltzmann in Fortran
+# Lattice Boltzmann in Fortran (LBFortran)
 
 1D advection diffusion equation: Completed the general framework using single file. <- 11.01.2020
 
