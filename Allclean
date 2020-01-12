@@ -1,0 +1,3 @@
+# remove program generated file
+rm -f *.o *.txt
+rm -f bin/*.txt
