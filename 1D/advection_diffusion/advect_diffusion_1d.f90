@@ -8,9 +8,9 @@ program Advection_Diffusion_1D
      REAL :: t1, t2 
  
      ! Parameters
-     INTEGER , PARAMETER :: N = 800              ! number of nodes
+     INTEGER , PARAMETER :: N = 400              ! number of nodes
      REAL , PARAMETER :: Ma = 0.1                  ! Mach number
-     REAL , PARAMETER :: D = 5.0E-8         ! diffusion coefficient
+     REAL , PARAMETER :: D = 1.0         ! diffusion coefficient
      REAL , PARAMETER :: c = 1.0                   ! molecular speed
      REAL , PARAMETER :: cs = 1.0/(3**0.5)            ! speed of sound
      REAL , PARAMETER :: u = Ma*cs                ! advection velocity
