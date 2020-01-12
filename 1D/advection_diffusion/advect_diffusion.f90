@@ -14,7 +14,7 @@ program Advection_Diffusion_1D
      REAL , PARAMETER :: c = 1.0                   ! molecular speed
      REAL , PARAMETER :: cs = 1.0/(3**0.5)            ! speed of sound
      REAL , PARAMETER :: u = Ma*cs                ! advection velocity
-     INTEGER , PARAMETER :: T = 4000    ! number of timesteps
+     INTEGER , PARAMETER :: T = floor(0.5*N/u)   ! number of timesteps
      REAL , PARAMETER :: beta = 1.0/(2.0*D/cs**2.0+1.0)   ! relaxation parameter
      REAL , PARAMETER :: alpha = 2.0                ! entropic stabilizer (constant for now)
      
@@ -33,9 +33,10 @@ program Advection_Diffusion_1D
      WRITE(*,*) "Calcuation Started - 1D Advection Diffusion Equation"
      WRITE(*,*) "-----------------------------------------------------"
  
-     if (profile == 1) GOTO 999
+     
      ! Initialze a steep gaussian profile
-     999 WRITE(*,*) "Initialze a steep gaussian profile"
+     WRITE(*,*) "Initialze a steep gaussian profile"
+     
      do i = 1, N
          rho_0(i) = 1+0.5*exp(-5000.0*(i/real(N)-0.25)**2)
      end do
@@ -81,12 +82,14 @@ program Advection_Diffusion_1D
          WRITE(*,*) "minimum moment after collision:", minval(rho)
          WRITE(*,*) "-----------------------------------------------------"
      end do
-    
+     write(*,*) shape(rho)
      WRITE(filename,'(a,i4.4,a)') "density_end.txt"
      open (newunit=fh, action='write', file=filename, status='unknown')
-         do i = 1, T  
-             write (fh, *) rho_output(i, :)
-         end do
+        do i = 1, T 
+            if (mod(i, 50)==0) then
+                write (fh, *) rho_output(i,:)
+            end if
+        end do
      close(fh)
  
      WRITE(*,*) "Finished"

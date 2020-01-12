@@ -7,10 +7,10 @@ fig = plt.figure()
 f = np.loadtxt("density_end.txt")
 ax = plt.axes(xlim= (0, 800), ylim=(1.0, 1.5))
 x = np.linspace(0, 800, 800)
-y = f[3999,:]
+y = f[0,:]
 
 plt.plot(x,y)
-"""
+
 line, = ax.plot(x,y)
 
 
@@ -26,14 +26,14 @@ def animate(i):
 
 # call the animator.  blit=True means only re-draw the parts that have changed.
 anim = animation.FuncAnimation(fig, animate, init_func=init,
-                             interval=1.0, blit=True, frames=4000)
+                             interval=100, blit=True, frames=136)
 
 # save the animation as an mp4.  This requires ffmpeg or mencoder to be
 # installed.  The extra_args ensure that the x264 codec is used, so that
 # the video can be embedded in html5.  You may need to adjust this for
 # your system: for more information, see
 # http://matplotlib.sourceforge.net/api/animation_api.html
-#anim.save('2sc.gif', writer='imagemagick', fps=240)
-"""
+anim.save('advection.gif', writer='imagemagick', fps=60)
+
 plt.show()
 
