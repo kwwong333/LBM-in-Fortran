@@ -1,4 +1,9 @@
 module LBM_1D
+! Contains all LBM related  modules for 1D simulation
+! Subrotines
+!   - sum_moment
+!   - equilibrium_f
+!   - lbm_shift
 
 contains
 

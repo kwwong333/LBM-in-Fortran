@@ -1,8 +1,7 @@
 program Advection_Diffusion_1D
    
-    use hdf5
     use LBM_1D
- 
+    
      implicit none
      ! CPU timing Variables 
      REAL :: t1, t2 
