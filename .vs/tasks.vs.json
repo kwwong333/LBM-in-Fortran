@@ -1,0 +1,15 @@
+{
+  "version": "0.2.1",
+  "tasks": [
+    {
+      "taskLabel": "task-LBM_Fort",
+      "appliesTo": "LBM_Fort.vfproj",
+      "type": "msbuild"
+    },
+    {
+      "taskLabel": "task-LBM_Fort_test",
+      "appliesTo": "LBM_Fort_test.vfproj",
+      "type": "msbuild"
+    }
+  ]
+}

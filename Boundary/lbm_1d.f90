@@ -13,13 +13,13 @@ subroutine sum_moment (rho, f, N)
     real, dimension (3, N) :: f
     real, dimension (N) :: rho
     
-    WRITE(*,*) rho(1), rho(2), rho(3)
+    write(*,*) rho(1), rho(2), rho(3)
 
     do i = 1, N
         rho(i) = f(1,i) + f(2,i) + f(3,i)
     end do
 
-    WRITE(*,*) rho(1), rho(2), rho(3)
+    write(*,*) rho(1), rho(2), rho(3)
 
     return
 end
@@ -42,7 +42,9 @@ subroutine advection (f, N)
     implicit none
     integer :: N
     real, dimension(3, N) :: f
+
     call lbm_shift(f, N)
+    
     return
 end 
     
@@ -90,7 +92,7 @@ subroutine lbm_shift(f, N)
     f(2,1) = right_bnd
     f(3,N) = left_bnd
     
-    WRITE(*,*) "LBM shift performed"
+    write(*,*) "LBM shift performed"
     return
 end
     

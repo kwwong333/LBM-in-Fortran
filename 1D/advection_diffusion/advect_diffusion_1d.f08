@@ -1,6 +1,6 @@
-program Advection_Diffusion_1D
+subroutine Advection_Diffusion_1D()
    
-    use LBM_1D
+     use LBM_1D
     
      implicit none
      ! CPU timing Variables 
@@ -17,9 +17,9 @@ program Advection_Diffusion_1D
      REAL , PARAMETER :: beta = 1.0/(2.0*D/cs**2.0+1.0)   ! relaxation parameter
      REAL , PARAMETER :: alpha = 2.0                ! entropic stabilizer (constant for now)
      
-     ! Initialize the array    
+     ! Initialise the array    
      real, dimension(3, N) :: f, f_eq
-     real, dimension(T, N) :: rho_output           ! array for equilibrium funciton
+     real, dimension(T, N) :: rho_output           ! array for equilibrium function
      real, dimension (N) :: x, rho_0, rho
  
      ! Local variables
@@ -28,19 +28,19 @@ program Advection_Diffusion_1D
  
      CALL cpu_time(t1)
  
-     WRITE(*,*) "-----------------------------------------------------"
-     WRITE(*,*) "Calcuation Started - 1D Advection Diffusion Equation"
-     WRITE(*,*) "-----------------------------------------------------"
+     write(*,*) "-----------------------------------------------------"
+     write(*,*) "Calculation Started - 1D Advection Diffusion Equation"
+     write(*,*) "-----------------------------------------------------"
  
      
      ! Initialze a steep gaussian profile
-     WRITE(*,*) "Initialze a steep gaussian profile"
+     write(*,*) "Initialze a steep gaussian profile"
      
      do i = 1, N
          rho_0(i) = 1+0.5*exp(-5000.0*(i/real(N)-0.25)**2)
      end do
  
-     WRITE(*,*) "Wriitng Initial profile"
+     write(*,*) "Writing Initial profile"
      
      
      open (newunit=fh, action='write', file='initial_Gaussian.txt', status='replace')
@@ -50,7 +50,7 @@ program Advection_Diffusion_1D
      close (fh)
      
  
-     ! Initialize the equilibrim function
+     ! Initialise the equilibrium function
      do i = 1 , N
          CALL equilibrium_f(f_eq, rho_0(i), Ma, cs, u, c, i, N)
      end do
@@ -62,27 +62,32 @@ program Advection_Diffusion_1D
  
      do i = 1, T
  
-         WRITE(*,*) "Timestep:", i
-         WRITE(*,*) "-----------------------------------------------------"
-         WRITE(*,*) "- Advection Step"
-         WRITE(*,*) "maximum moment before advection:", maxval(rho)
-         WRITE(*,*) "minimum moment before advection:", minval(rho)
+         write(*,*) "Timestep:", i
+         write(*,*) "-----------------------------------------------------"
+         write(*,*) "- Advection Step"
+         write(*,*) "maximum moment before advection:", maxval(rho)
+         write(*,*) "minimum moment before advection:", minval(rho)
          CALL advection(f, N)
-         WRITE(*,*) "maximum moment after advection:", maxval(rho)
-         WRITE(*,*) "minimum moment after advection:", minval(rho)
-         WRITE(*,*) "- Moment Calculation Step"
+
+         write(*,*) "maximum moment after advection:", maxval(rho)
+         write(*,*) "minimum moment after advection:", minval(rho)
+         write(*,*) "- Moment Calculation Step"
          CALL sum_moment(rho, f, N)
-         WRITE(*,*) "maximum moment after moment calculation:", maxval(rho)
-         WRITE(*,*) "minimum moment after moment calcualtion:", minval(rho)
+
+         write(*,*) "maximum moment after moment calculation:", maxval(rho)
+         write(*,*) "minimum moment after moment calcualtion:", minval(rho)
          rho_output(i, :) = rho
-         WRITE(*,*) "- Collision Step"
+
+         write(*,*) "- Collision Step"
          CALL collision (f, rho, alpha, beta, Ma, cs, u, c, N)
-         WRITE(*,*) "maximum moment after collision:", maxval(rho)
-         WRITE(*,*) "minimum moment after collision:", minval(rho)
-         WRITE(*,*) "-----------------------------------------------------"
+         write(*,*) "maximum moment after collision:", maxval(rho)
+         write(*,*) "minimum moment after collision:", minval(rho)
+         write(*,*) "-----------------------------------------------------"
      end do
+
      write(*,*) shape(rho)
-     WRITE(filename,'(a,i4.4,a)') "density_end.txt"
+     write(filename,'(a,i4.4,a)') "density_end.txt"
+     
      open (newunit=fh, action='write', file=filename, status='unknown')
         do i = 1, T 
             if (mod(i, 50)==0) then
@@ -91,15 +96,15 @@ program Advection_Diffusion_1D
         end do
      close(fh)
  
-     WRITE(*,*) "Finished"
-     WRITE(*,*) "-----------------------------------------------------"
+     write(*,*) "Finished"
+     write(*,*) "-----------------------------------------------------"
  
      CALL cpu_time(t2)
  
      ! print used cpu time
-     WRITE(*,*) "CPU Time : ",t2-t1
+     write(*,*) "CPU Time : ",t2-t1
  
- end program Advection_Diffusion_1D
+ end subroutine Advection_Diffusion_1D
  
  
  
