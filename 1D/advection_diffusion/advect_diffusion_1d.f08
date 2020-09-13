@@ -7,15 +7,15 @@ subroutine Advection_Diffusion_1D()
      REAL :: t1, t2 
  
      ! Parameters
-     INTEGER , PARAMETER :: N = 400              ! number of nodes
-     REAL , PARAMETER :: Ma = 0.1                  ! Mach number
-     REAL , PARAMETER :: D = 1.0         ! diffusion coefficient
-     REAL , PARAMETER :: c = 1.0                   ! molecular speed
-     REAL , PARAMETER :: cs = 1.0/(3**0.5)            ! speed of sound
-     REAL , PARAMETER :: u = Ma*cs                ! advection velocity
-     INTEGER , PARAMETER :: T = floor(0.5*N/u)   ! number of timesteps
+     INTEGER , PARAMETER :: N = 400                       ! number of nodes
+     REAL , PARAMETER :: Ma = 0.1                         ! Mach number
+     REAL , PARAMETER :: D = 1.0                          ! diffusion coefficient
+     REAL , PARAMETER :: c = 1.0                          ! molecular speed
+     REAL , PARAMETER :: cs = 1.0/(3**0.5)                ! speed of sound
+     REAL , PARAMETER :: u = Ma*cs                        ! advection velocity
+     INTEGER , PARAMETER :: T = floor(0.5*N/u)            ! number of timesteps
      REAL , PARAMETER :: beta = 1.0/(2.0*D/cs**2.0+1.0)   ! relaxation parameter
-     REAL , PARAMETER :: alpha = 2.0                ! entropic stabilizer (constant for now)
+     REAL , PARAMETER :: alpha = 2.0                      ! entropic stabilizer (constant for now)
      
      ! Initialise the array    
      real, dimension(3, N) :: f, f_eq
